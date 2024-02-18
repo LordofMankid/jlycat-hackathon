@@ -31,10 +31,10 @@ const checkRegistration = async (
       throw new Error('Failed to fetch data');
     }
     const data = await response.json();
-    return true;
+    return data;
   } catch (error) {
     console.error('Error fetching data:', error);
-    return false;
+    return { status: 'nil', message: 'nil', data: {} };
   }
 };
 

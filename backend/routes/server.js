@@ -47,19 +47,16 @@ app.post('/', function (req, res) {
             ]);
             console.log('Navigation to next page done');
 
-            // Find voter status on next page
             const voterStatus = await page.$eval('#MainContent_lblStatus', (element) =>
                 element.textContent.trim()
             );
-            console.log('Voter Status:', voterStatus);
-
             const address = await page.$eval('#MainContent_lblResAddress', (element) =>
                 element.textContent.trim()
             );
             const wardNumber = await page.$eval('#MainContent_lblWardNo', (element) =>
                 element.textContent.trim()
             );
-            const precintNumber = await page.$eval('#MainContent_lblPrecinctNo', (element) =>
+            const precinctNumber = await page.$eval('#MainContent_lblPrecinctNo', (element) =>
                 element.textContent.trim()
             );
             const facilityName = await page.$eval('#MainContent_lblPollPlaceName', (element) =>
@@ -81,28 +78,67 @@ app.post('/', function (req, res) {
                 element.textContent.trim()
             );
             const electedOfficials = await page.evaluate(() => {
-                const rows = Array.from(document.querySelectorAll('table.p1 tbody tr'));
+                const dataArray = [];
+                const rows = document.querySelectorAll(
+                    '#MainContent_pnlElectedOfficials table:first-of-type tbody tr'
+                );
 
-                return rows.map(row => {
-                    const titleElement = row.querySelector('td.SpecialTD span');
-                    const nameElement = row.querySelector('td.SpecialTD + td a');
+                rows.forEach((row) => {
+                    const titleElement = row.querySelector('td:nth-child(1) span');
+                    const nameElement = row.querySelector('td:nth-child(2) a');
 
-                    const title = titleElement ? titleElement.textContent.trim() : '';
-                    const name = nameElement ? nameElement.textContent.trim() : '';
+                    if (titleElement && nameElement) {
+                        const title = titleElement.textContent.trim().replace(':', '');
+                        const name = nameElement.textContent.trim();
 
-                    return { title, name };
+                        dataArray.push({ title, name });
+                    }
                 });
+
+                return dataArray;
             });
-            console.log(electedOfficials)
+            const districtRepresentatives = await page.evaluate(() => {
+                const dataArray = [];
+                const rows = document.querySelectorAll(
+                    '#MainContent_pnlCurrentDistrictRepresentatives table:first-of-type tbody tr'
+                );
+
+                rows.forEach((row) => {
+                    const titleElement = row.querySelector('td:nth-child(1) span');
+                    const nameElement = row.querySelector('td:nth-child(2) a');
+
+                    if (titleElement && nameElement) {
+                        const title = titleElement.textContent.trim().replace(':', '');
+                        const name = nameElement.textContent.trim();
+
+                        dataArray.push({ title, name });
+                    }
+                });
+
+                return dataArray;
+            });
             await browser.close();
+
+            const data = {
+                address: address,
+                wardNumber: wardNumber,
+                precinctNumber: precinctNumber,
+                facilityName: facilityName,
+                pollAddress: pollAddress,
+                townClerkPhone,
+                townClerkPhone,
+                townClerkEmail: townClerkEmail,
+                townClerkFax: townClerkFax,
+                townClerkWebsite: townClerkWebsite,
+                electedOfficials: electedOfficials,
+                districtRepresentatives: districtRepresentatives,
+            };
 
             // Send voter registration status back to client
             res.send({
                 status: voterStatus,
                 message: 'Managed to get voter status!',
-                data: {
-                    address: address,
-                },
+                data: data,
             });
         })
         .catch((error) => {
@@ -114,7 +150,6 @@ app.post('/', function (req, res) {
             });
         });
 });
-
 
 app.get('/getPlaceId', async (req, res) => {
     try {
@@ -135,7 +170,6 @@ app.get('/getPlaceId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
-
 
 app.listen(4321, function () {
     console.log('Running on port 4321.');
