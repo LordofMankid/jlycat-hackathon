@@ -1,22 +1,20 @@
-import { YStack, H4, Paragraph, Button } from 'tamagui';
+import { YStack, H2, Paragraph, Button, Text, ScrollView } from 'tamagui';
 import { useAuth } from '~/context/auth';
+import { colorTokens } from '@tamagui/themes';
 
 export default function EditScreenInfo({ path }: { path: string }) {
   const { signOut } = useAuth();
   return (
     <YStack>
-      <YStack alignItems="center" marginHorizontal="$6">
-        <H4>Open up the code for this screen:</H4>
-        <Button backgroundColor="black" onPress={() => signOut()}>
-          Sign Out
-        </Button>
-        <YStack borderRadius="$3" marginVertical="$1">
-          <Paragraph>{path}</Paragraph>
-        </YStack>
-        <Paragraph>
-          Change any of the text, save the file, and your app will automatically update.
-        </Paragraph>
+      <Button backgroundColor="$blue3" borderColor="$blue6" onPress={() => signOut()}>
+        <Text color="white">Sign Out</Text>
+      </Button>
+      <YStack borderRadius="$3" marginVertical="$1">
+        <Paragraph>{path}</Paragraph>
       </YStack>
-    </YStack>
+      <Paragraph textAlign='center'>
+        Additional Features: TDB
+      </Paragraph>
+    </YStack >
   );
 }

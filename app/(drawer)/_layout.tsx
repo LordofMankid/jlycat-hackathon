@@ -2,55 +2,59 @@ import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { colorTokens } from '@tamagui/themes';
 import { Link } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
-import { Pressable, StyleSheet } from 'react-native';
+import { StyleSheet, Pressable, TouchableOpacity, Touchable, Text } from 'react-native';
+import { useAuth } from '~/context/auth';
+
+const { signOut } = useAuth();
 
 const DrawerLayout = () => (
   <Drawer
     screenOptions={{
+      drawerStyle: {
+        backgroundColor: colorTokens.dark.blue.blue1,
+      },
       headerStyle: {
         backgroundColor: colorTokens.dark.blue.blue3,
         borderBottomWidth: 0,
+        shadowColor: "transparent",
       },
     }}>
-    <Drawer.Screen
-      name="index"
-      options={{
-        headerTitle: 'Home',
-        drawerLabel: 'Home',
-        drawerIcon: ({ size, color }) => <Ionicons name="home-outline" size={size} color={color} />,
-      }}
-    />
+
     <Drawer.Screen
       name="(tabs)"
       options={{
         headerTitle: '',
-        drawerLabel: '',
+        drawerLabel: 'Main',
+        drawerLabelStyle: {
+          color: "white"
+        },
         drawerIcon: ({ size, color }) => (
-          <MaterialIcons name="border-bottom" size={size} color={color} />
+          <MaterialIcons name="ballot" size={size} color="white" />
         ),
-        headerRight: () => (
-          <Link href="/modal" asChild>
-            <Pressable>
-              {({ pressed }) => (
-                <FontAwesome
-                  name="info-circle"
-                  size={25}
-                  color="gray"
-                  style={[styles.headerRight, { opacity: pressed ? 0.5 : 1 }]}
-                />
-              )}
-            </Pressable>
-          </Link>
+        drawerType: 'slide',
+      }}
+    />
+
+    <Drawer.Screen
+      name="index"
+      options={{
+        headerTitle: '',
+        drawerLabel: 'Settings',
+        drawerLabelStyle: {
+          color: "white"
+        },
+        drawerIcon: () => (
+          <Ionicons
+            name="settings-outline"
+            size={24}
+            color="white"
+            align="right"
+            style={{ marginRight: 'auto' }}
+          />
         ),
       }}
     />
   </Drawer>
 );
-
-const styles = StyleSheet.create({
-  headerRight: {
-    marginRight: 15,
-  },
-});
 
 export default DrawerLayout;
