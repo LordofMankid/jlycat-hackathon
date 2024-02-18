@@ -8,6 +8,7 @@ import {
   Button,
   Square,
   Input,
+  Image,
 } from 'tamagui';
 import MaterialUI from '@expo/vector-icons/MaterialIcons';
 import * as Location from 'expo-location';
@@ -76,7 +77,6 @@ export default function TabTwoScreen() {
   const [position, setPosition] = useState(0);
   const [open, setOpen] = useState(false);
   const [modal, setModal] = useState(true);
-  const [innerOpen, setInnerOpen] = useState(false);
   const [snapPointsMode, setSnapPointsMode] = useState<(typeof spModes)[number]>('percent');
   const [mixedFitDemo, setMixedFitDemo] = useState(false);
 
@@ -97,7 +97,7 @@ export default function TabTwoScreen() {
   const renderMarkers = () => {
     // nested for loop cuz it's stored sep by location vote type
     if (polls) {
-      return polls.map((item: any) => {
+      return polls.map((item: any, index2: number) => {
         return item.map((item2: any, index: Key | null | undefined) => (
           <Marker
             key={index}
@@ -108,8 +108,7 @@ export default function TabTwoScreen() {
             onPress={() => {
               setSelectedLocation(item2);
               setOpen(true);
-            }}
-          />
+            }}></Marker>
         ));
       });
     }

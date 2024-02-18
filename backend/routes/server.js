@@ -115,6 +115,28 @@ app.post('/', function (req, res) {
         });
 });
 
+
+app.get('/getPlaceId', async (req, res) => {
+    try {
+        const { latitude, longitude } = req.query;
+        const apiKey = 'YOUR_GOOGLE_PLACES_API_KEY'; // Replace with your API key
+
+        const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+        const response = await axios.get(apiUrl);
+
+        if (response.data.status === 'OK' && response.data.results.length > 0) {
+            const placeId = response.data.results[0].place_id;
+            res.json({ placeId });
+        } else {
+            res.status(400).json({ error: 'Error in geocoding request' });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 app.listen(4321, function () {
     console.log('Running on port 4321.');
 });
