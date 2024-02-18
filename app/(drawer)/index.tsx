@@ -6,13 +6,11 @@ import { useAuth } from '~/context/auth';
 const Page = () => {
 
   return (
-    <Theme name="light">
-      <YStack flex={1} alignItems="center" justifyContent="center">
-        <H2>Home</H2>
-        <Separator />
-        <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <Theme name="dark">
+      <YStack flex={1} alignItems="center" justifyContent="center" backgroundColor={"$blue1"}>
+        <EditScreenInfo />
       </YStack>
-    </Theme>
+    </Theme >
   );
 };
 
