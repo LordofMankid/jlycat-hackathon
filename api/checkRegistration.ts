@@ -19,7 +19,7 @@ const checkRegistration = async (
     };
     console.log(requestBody);
 
-    const response = await fetch('http://130.64.155.30:4321/', {
+    const response = await fetch('http://10.243.37.10:4321/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,10 +30,11 @@ const checkRegistration = async (
     if (!response.ok) {
       throw new Error('Failed to fetch data');
     }
-
     const data = await response.json();
+    return true;
   } catch (error) {
     console.error('Error fetching data:', error);
+    return false;
   }
 };
 

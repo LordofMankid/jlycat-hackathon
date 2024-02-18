@@ -1,12 +1,53 @@
 import { XStack, YStack, Square, H2, Text, Button } from 'tamagui';
 import MaterialUI from '@expo/vector-icons/MaterialIcons';
-
+import * as Linking from 'expo-linking';
+import * as WebBrowser from 'expo-web-browser';
+import { db } from '~/backend/firebase';
+import { doc } from 'firebase/firestore';
 function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; color: string }) {
   return <MaterialUI size={24} {...props} />;
 }
 
+function makeQuery(location: any) {
+  return encodeURIComponent(location.address.line1)
+    .replace(/%20/g, '+')
+    .concat(encodeURIComponent(location.address.city).replace(/%20/g, '+'))
+    .concat(encodeURIComponent(location.address.state).replace(/%20/g, '+'));
+}
+
+async function getLocationRef(latitude: any, longitude: any) {
+  const roundedLat = Math.round(latitude * 1000) / 1000;
+  const roundedLng = Math.round(longitude * 1000) / 1000;
+
+  // Combine them to create a unique identifier
+  const uniqueId = `${roundedLat}_${roundedLng}`;
+
+  const locationRef = doc(db, 'pollingLocations', uniqueId);
+  return locationRef;
+}
+
+async function reverseGeoLocation(latitude: any, longitude: any) {
+  const apiKey = process.env.EXPO_PUBLIC_FIREBASE_API_KEY;
+  const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+
+  fetch(apiUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status === 'OK' && data.results.length > 0) {
+        const placeId = data.results[0].place_id;
+        console.log('Place ID:', placeId);
+      } else {
+        console.error('Error in geocoding request:', data.status);
+      }
+    })
+    .catch((error) => {
+      console.error('Error in fetch:', error);
+    });
+}
+
 export default function LocationModal(locationObject: any) {
   location = locationObject.location;
+
   return (
     <YStack flex={1} backgroundColor={'$blue1'} padding={20} borderRadius={25}>
       <YStack
@@ -25,7 +66,15 @@ export default function LocationModal(locationObject: any) {
               {location.address.line1} {location.address.city}, {location.address.state},
               {location.address.zip}
             </Text>
-            <Button color="$blue11" size="$3.5" backgroundColor={'$blue4'} borderRadius={50}>
+            <Button
+              color="$blue11"
+              size="$3.5"
+              backgroundColor={'$blue4'}
+              borderRadius={50}
+              onPress={() => {
+                const query = makeQuery(location);
+                WebBrowser.openBrowserAsync(`http://maps.google.com/?q=${query}`);
+              }}>
               Open in Google Maps
               <Icon name="chevron-right" color="white"></Icon>
             </Button>

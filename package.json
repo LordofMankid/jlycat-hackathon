@@ -15,11 +15,8 @@
     "@react-navigation/drawer": "^6.6.6",
     "@react-navigation/native": "^6.1.7",
     "@tamagui/font-inter": "1.74.8",
-<<<<<<< Updated upstream
     "@tamagui/lucide-icons": "^1.89.30",
-=======
     "@tamagui/linear-gradient": "^1.89.30",
->>>>>>> Stashed changes
     "@tamagui/react-native-media-driver": "1.74.8",
     "@tamagui/shorthands": "1.74.8",
     "@tamagui/themes": "1.74.8",
@@ -39,17 +36,15 @@
     "react-dom": "18.2.0",
     "react-native": "0.73.2",
     "react-native-gesture-handler": "~2.14.0",
-<<<<<<< Updated upstream
-=======
     "react-native-linear-gradient": "^2.8.3",
->>>>>>> Stashed changes
     "react-native-maps": "1.10.0",
     "react-native-reanimated": "~3.6.2",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-screens": "~3.29.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.6",
-    "tamagui": "1.74.8"
+    "tamagui": "1.74.8",
+    "expo-linear-gradient": "~12.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
