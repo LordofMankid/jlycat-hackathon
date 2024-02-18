@@ -77,6 +77,7 @@ export default function TabOneScreen() {
             setTownClerkFax(data.townClerkFax);
             setTownClerkWebsite(data.townClerkWebsite);
             setElectedOfficials(data.electedOfficials);
+            console.log(data.disrictRepresentatives);
             setDistrictRepresentatives(data.districtRepresentatives);
           }
 
@@ -251,25 +252,26 @@ export default function TabOneScreen() {
                   backgroundColor={'$blue2'}
                   borderColor={'$blue6'}
                   borderRadius={10}>
-                  {electedOfficials.map((official) => {
-                    return (
-                      <XStack
-                        flex={1}
-                        alignItems="center"
-                        justifyContent="space-between"
-                        borderBottomColor={'$blue6'}
-                        borderBottomWidth={1}
-                        padding={16}>
-                        <YStack>
-                          <Text color={'$blue12'} paddingBottom={4}>
-                            {official.name}
-                          </Text>
-                          <Text color={'$blue11'}>{official.title}</Text>
-                        </YStack>
-                        <Icon name="chevron-right" color="white"></Icon>
-                      </XStack>
-                    );
-                  })}
+                  {electedOfficials != null &&
+                    electedOfficials.map((official) => {
+                      return (
+                        <XStack
+                          flex={1}
+                          alignItems="center"
+                          justifyContent="space-between"
+                          borderBottomColor={'$blue6'}
+                          borderBottomWidth={1}
+                          padding={16}>
+                          <YStack>
+                            <Text color={'$blue12'} paddingBottom={4}>
+                              {official.name}
+                            </Text>
+                            <Text color={'$blue11'}>{official.title}</Text>
+                          </YStack>
+                          <Icon name="chevron-right" color="white"></Icon>
+                        </XStack>
+                      );
+                    })}
                 </YStack>
 
                 <SizableText fontSize={20} paddingTop={20}>
@@ -282,51 +284,53 @@ export default function TabOneScreen() {
                   borderRadius={10}
                   maxWidth={350}>
                   <YStack width={180} borderRightColor={'$blue6'}>
-                    {districtRepresentatives
-                      .slice(0, Math.floor(districtRepresentatives.length / 2))
-                      .map((rep) => {
-                        return (
-                          <XStack
-                            flex={1}
-                            alignItems="center"
-                            justifyContent="space-between"
-                            borderColor={'$blue6'}
-                            borderBottomWidth={1}
-                            borderRightWidth={1}
-                            padding={16}>
-                            <YStack>
-                              <Text color={'$blue12'} paddingBottom={4}>
-                                {rep.name}
-                              </Text>
-                              <Text color={'$blue11'}>{rep.title}</Text>
-                            </YStack>
-                          </XStack>
-                        );
-                      })}
+                    {districtRepresentatives != null &&
+                      districtRepresentatives
+                        .slice(0, Math.floor(districtRepresentatives.length / 2))
+                        .map((rep) => {
+                          return (
+                            <XStack
+                              flex={1}
+                              alignItems="center"
+                              justifyContent="space-between"
+                              borderColor={'$blue6'}
+                              borderBottomWidth={1}
+                              borderRightWidth={1}
+                              padding={16}>
+                              <YStack>
+                                <Text color={'$blue12'} paddingBottom={4}>
+                                  {rep.name}
+                                </Text>
+                                <Text color={'$blue11'}>{rep.title}</Text>
+                              </YStack>
+                            </XStack>
+                          );
+                        })}
                   </YStack>
 
                   {/* 2nd column */}
                   <YStack maxWidth={175}>
-                    {districtRepresentatives
-                      .slice(Math.floor(districtRepresentatives.length / 2))
-                      .map((rep) => {
-                        return (
-                          <XStack
-                            flex={1}
-                            alignItems="center"
-                            justifyContent="space-between"
-                            borderColor={'$blue6'}
-                            borderBottomWidth={1}
-                            padding={16}>
-                            <YStack>
-                              <Text color={'$blue12'} paddingBottom={4}>
-                                {rep.name}
-                              </Text>
-                              <Text color={'$blue11'}>{rep.title}</Text>
-                            </YStack>
-                          </XStack>
-                        );
-                      })}
+                    {districtRepresentatives != null &&
+                      districtRepresentatives
+                        .slice(Math.floor(districtRepresentatives.length / 2))
+                        .map((rep) => {
+                          return (
+                            <XStack
+                              flex={1}
+                              alignItems="center"
+                              justifyContent="space-between"
+                              borderColor={'$blue6'}
+                              borderBottomWidth={1}
+                              padding={16}>
+                              <YStack>
+                                <Text color={'$blue12'} paddingBottom={4}>
+                                  {rep.name}
+                                </Text>
+                                <Text color={'$blue11'}>{rep.title}</Text>
+                              </YStack>
+                            </XStack>
+                          );
+                        })}
                   </YStack>
                 </XStack>
 
