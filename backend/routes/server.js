@@ -53,12 +53,56 @@ app.post('/', function (req, res) {
             );
             console.log('Voter Status:', voterStatus);
 
+            const address = await page.$eval('#MainContent_lblResAddress', (element) =>
+                element.textContent.trim()
+            );
+            const wardNumber = await page.$eval('#MainContent_lblWardNo', (element) =>
+                element.textContent.trim()
+            );
+            const precintNumber = await page.$eval('#MainContent_lblPrecinctNo', (element) =>
+                element.textContent.trim()
+            );
+            const facilityName = await page.$eval('#MainContent_lblPollPlaceName', (element) =>
+                element.textContent.trim()
+            );
+            const pollAddress = await page.$eval('#MainContent_lblPollPlaceAddress', (element) =>
+                element.textContent.trim()
+            );
+            const townClerkPhone = await page.$eval('#MainContent_lblPhone', (element) =>
+                element.textContent.trim()
+            );
+            const townClerkFax = await page.$eval('#MainContent_lblFax', (element) =>
+                element.textContent.trim()
+            );
+            const townClerkEmail = await page.$eval('#MainContent_lnkEmail', (element) =>
+                element.textContent.trim()
+            );
+            const townClerkWebsite = await page.$eval('#MainContent_lnkWebsite', (element) =>
+                element.textContent.trim()
+            );
+            const electedOfficials = await page.evaluate(() => {
+                const rows = Array.from(document.querySelectorAll('table.p1 tbody tr'));
+
+                return rows.map(row => {
+                    const titleElement = row.querySelector('td.SpecialTD span');
+                    const nameElement = row.querySelector('td.SpecialTD + td a');
+
+                    const title = titleElement ? titleElement.textContent.trim() : '';
+                    const name = nameElement ? nameElement.textContent.trim() : '';
+
+                    return { title, name };
+                });
+            });
+            console.log(electedOfficials)
             await browser.close();
 
             // Send voter registration status back to client
             res.send({
                 status: voterStatus,
                 message: 'Managed to get voter status!',
+                data: {
+                    address: address,
+                },
             });
         })
         .catch((error) => {
@@ -66,6 +110,7 @@ app.post('/', function (req, res) {
             res.status(500).send({
                 status: 'nil',
                 message: 'Failed to get voter status.',
+                data: {},
             });
         });
 });

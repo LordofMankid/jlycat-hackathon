@@ -1,10 +1,11 @@
-import { YStack, SizableText, Theme, ScrollView, Text, XStack, Button, Square } from 'tamagui';
+import { YStack, SizableText, Theme, ScrollView, Text, XStack, Button, Square, H2 } from 'tamagui';
 import MaterialUI from '@expo/vector-icons/MaterialIcons';
 import { useAuth } from '~/context/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '~/backend/firebase';
 import checkRegistration from '~/api/checkRegistration';
 import { useEffect, useState } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 
 function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; color: string }) {
   return <MaterialUI size={28} {...props} />;
@@ -13,21 +14,32 @@ function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; co
 export default function TabOneScreen() {
   const { user } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
+  const [alreadyLoaded, setAlreadyLoaded] = useState<boolean>(false);
   const [name, setName] = useState<string>();
   const [dob, setDob] = useState<string>();
   const [address, setAddress] = useState<string>();
+  const isFocused = useIsFocused();
 
   useEffect(() => {
+    if (alreadyLoaded) {
+      return;
+    }
     (async () => {
       setLoading(true);
-      console.log('Loading in user...');
       if (user != null) {
         const userRef = doc(db, 'users', user.uid);
 
         const docSnap = await getDoc(userRef);
         console.log(docSnap.data());
         if (docSnap.exists()) {
-          console.log('user found!');
+          console.log('User found!');
+          setLoading(false);
+
+          setName(docSnap.data().firstName + ' ' + docSnap.data().lastName);
+          setDob(docSnap.data().month + ' ' + docSnap.data().day + ', ' + docSnap.data().year);
+
+          // check registration
+          console.log('Checking registration...');
           await checkRegistration(
             docSnap.data().firstName,
             docSnap.data().lastName,
@@ -36,23 +48,22 @@ export default function TabOneScreen() {
             docSnap.data().year,
             docSnap.data().zipCode
           );
-
-          setName(docSnap.data().firstName + ' ' + docSnap.data().lastName);
-          setDob(docSnap.data().month + '/' + docSnap.data().day + '/' + docSnap.data().year);
+          console.log('Done with checking registration...');
+          setAlreadyLoaded(true);
         }
       } else {
         console.log('Error getting registration info: not logged in');
         setLoading(false);
       }
-      console.log('Finished loading...');
-      setLoading(false);
     })();
-  }, []);
+  }, [isFocused]);
 
   return (
     <Theme name="dark">
       <YStack backgroundColor={'$blue1'} flex={1} alignItems="center" justifyContent="center">
-        {loading ? null : (
+        {loading ? (
+          <H2>Loading...</H2>
+        ) : (
           <ScrollView space="$space.3">
             <SizableText size="$6" fontSize={23} paddingTop={20}>
               Voter Registration Details
@@ -65,7 +76,7 @@ export default function TabOneScreen() {
               borderWidth={1}
               space="$space.2"
               width={353}>
-              <YStack width={110} padding={16}>
+              <YStack width={115} padding={16}>
                 <Text color="white" paddingBottom={16}>
                   Name
                 </Text>
@@ -117,9 +128,9 @@ export default function TabOneScreen() {
               borderWidth={1}
               space="$space.2"
               width={353}>
-              <YStack width={110} padding={16}>
+              <YStack width={115} padding={16}>
                 <Text color="white" paddingBottom={16}>
-                  Ward Number
+                  Ward No.
                 </Text>
                 <Text color="white" paddingBottom={16}>
                   Precinct
@@ -160,7 +171,7 @@ export default function TabOneScreen() {
               borderWidth={1}
               space="$space.2"
               width={353}>
-              <YStack width={110} padding={16}>
+              <YStack width={115} padding={16}>
                 <Text color="white" paddingBottom={16}>
                   Phone
                 </Text>
@@ -178,7 +189,7 @@ export default function TabOneScreen() {
                 backgroundColor={'$blue6'}
                 borderColor={'$blue6'}
                 borderWidth={0.5}></Square>
-              <YStack paddingLeft={24} padding={16} width={200}>
+              <YStack paddingLeft={24} padding={16} width={220}>
                 <Text color="white" paddingBottom={16}>
                   781-698-4558
                 </Text>
