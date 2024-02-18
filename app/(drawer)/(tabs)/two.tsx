@@ -6,6 +6,7 @@ import { db } from '~/backend/firebase';
 import checkRegistration from '~/api/checkRegistration';
 import { useEffect, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+
 // import LocationModal from '../components/map';
 
 function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; color: string }) {
@@ -15,7 +16,15 @@ function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; co
 export default function TabTwoScreen() {
   return (
     <Theme name="dark">
-      <MapView style={{ flex: 1 }} provider={PROVIDER_GOOGLE}></MapView>
+      <MapView
+        style={{ flex: 1 }}
+        provider={PROVIDER_GOOGLE}
+        initialRegion={{
+          latitude: 42.40711,
+          longitude: -71.11355,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}></MapView>
     </Theme>
     // <LocationModal></LocationModal>
   );

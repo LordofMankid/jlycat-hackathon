@@ -27,22 +27,6 @@ const TabBarStyle: ViewStyle = {
   height: 70,
 };
 
-const TabBarStyle1: ViewStyle = {
-  position: 'absolute',
-  display: 'flex',
-  bottom: 40,
-  paddingBottom: 15,
-  paddingTop: 10,
-  backgroundColor: colorTokens.dark.blue.blue3,
-  borderRadius: 50,
-  width: '92.5%',
-  left: 14,
-  borderWidth: 0,
-  borderTopWidth: 0,
-  right: 25,
-  height: 70,
-};
-
 export default function TabLayout() {
   return (
     <Tabs

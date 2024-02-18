@@ -9,6 +9,7 @@ const DrawerLayout = () => (
     screenOptions={{
       headerStyle: {
         backgroundColor: colorTokens.dark.blue.blue3,
+        borderBottomWidth: 0,
       },
     }}>
     <Drawer.Screen

@@ -48,7 +48,6 @@ export default function TabOneScreen() {
             docSnap.data().year,
             docSnap.data().zipCode
           );
-          console.log('Done with checking registration...');
           setAlreadyLoaded(true);
         }
       } else {
