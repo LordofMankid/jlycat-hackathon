@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import LoginButton from '~/components/login/LoginButton';
 import { Link } from 'expo-router';
 import LoginInput from '~/components/login/LoginInput';
-import { Text, Button, Form, H1, Input, Spinner, Theme, YStack, XStack } from 'tamagui';
+import { Image, Text, Button, Form, H1, Input, Spinner, Theme, YStack, XStack } from 'tamagui';
 import { useAuth } from '~/context/auth';
 import { YGroup } from 'tamagui';
 
@@ -38,17 +38,22 @@ const login = () => {
         flex={1}
         alignItems="center"
         justifyContent="center"
-        backgroundColor={'$blue3'}
+        backgroundColor={'$blue1'}
         space={'$space.3'}>
-        <H1>MyVoterInfo</H1>
+        <Image
+          source={require('~/assets/logo.png')}
+          width={500}
+          height={100}
+          scale={0.55}
+        />
         <Form
           space={'$space.5'}
           onSubmit={() => {
             setStatus('submitting');
             signIn(email, password);
           }}>
-          <YStack space={'$space.1'}>
-            <Text color={'$blue10'}>*Email</Text>
+          <YStack space={'$space.1'} marginTop={-20}>
+            <Text color={'$blue10'} paddingBottom={5}>*Email</Text>
             <Input
               minWidth={'83%'}
               keyboardType="email-address"
@@ -59,11 +64,12 @@ const login = () => {
               borderColor={'$blue10'}
               placeholder="Enter your email"
               placeholderTextColor={'$blue10'}
+              backgroundColor={"$blue3"}
               color={'$blue12'}
             />
           </YStack>
           <YStack space={'$space.1'}>
-            <Text color={'$blue10'}>*Password</Text>
+            <Text color={'$blue10'} paddingBottom={5}>*Password</Text>
             <Input
               borderColor={'$blue10'}
               minWidth={'$10'}
@@ -74,15 +80,16 @@ const login = () => {
               }}
               placeholder="Enter your password"
               placeholderTextColor={'$blue10'}
+              backgroundColor={"$blue3"}
               color={'$blue12'}
             />
-            <Text color="white">Forgot your Password? </Text>
+            <Text color="white" paddingTop={10}>Forgot your Password? </Text>
           </YStack>
           <XStack space={'$3'}>
             <Link
               href={{ pathname: '/signup', params: { email: email, password: password } }}
               asChild>
-              <Button backgroundColor={'$blue3'} borderColor={'$blue6'} color={'$blue12'} flex={2}>
+              <Button backgroundColor={'transparent'} borderColor={'$blue6'} color={'$blue12'} flex={2}>
                 Create Account
               </Button>
             </Link>

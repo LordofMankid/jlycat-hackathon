@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useLocalSearchParams } from 'expo-router';
+import MaterialUI from '@expo/vector-icons/MaterialIcons';
 import {
   YStack,
   Theme,
@@ -16,6 +17,10 @@ import {
   H3,
   H4,
 } from 'tamagui';
+
+function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; color: string }) {
+  return <MaterialUI size={28} {...props} />;
+}
 
 import checkRegistration from '~/api/checkRegistration';
 import { auth, db } from '~/backend/firebase';
@@ -68,8 +73,9 @@ export default function signup() {
   return (
     <Theme name="dark">
       <ScrollView padding="$4" backgroundColor="$blue1">
-        <YStack space="$4">
-          <H3 fontWeight={'$11'} paddingTop={20} paddingBottom={10}>
+        <YStack space="$4" paddingTop={50}>
+          <Icon name="chevron-left" color="white"></Icon>
+          <H3 fontWeight={'$11'} paddingTop={80} paddingBottom={10}>
             Enter your registration info
           </H3>
           <XStack alignItems="center" space="$3">
