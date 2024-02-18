@@ -1,8 +1,10 @@
-import { YStack, H2, Separator, Theme } from 'tamagui';
+import { YStack, H2, Separator, Theme, Button } from 'tamagui';
 
 import EditScreenInfo from '../../components/edit-screen-info';
+import { useAuth } from '~/context/auth';
 
 const Page = () => {
+
   return (
     <Theme name="light">
       <YStack flex={1} alignItems="center" justifyContent="center">

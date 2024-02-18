@@ -1,10 +1,16 @@
 import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { colorTokens } from '@tamagui/themes';
 import { Link } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import { Pressable, StyleSheet } from 'react-native';
 
 const DrawerLayout = () => (
-  <Drawer>
+  <Drawer
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: colorTokens.dark.blue.blue3,
+      },
+    }}>
     <Drawer.Screen
       name="index"
       options={{
@@ -16,8 +22,8 @@ const DrawerLayout = () => (
     <Drawer.Screen
       name="(tabs)"
       options={{
-        headerTitle: 'Tabs',
-        drawerLabel: 'Tabs',
+        headerTitle: '',
+        drawerLabel: '',
         drawerIcon: ({ size, color }) => (
           <MaterialIcons name="border-bottom" size={size} color={color} />
         ),

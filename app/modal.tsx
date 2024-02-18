@@ -9,7 +9,7 @@ export default function ModalScreen() {
     <Theme name="light">
       <YStack flex={1} alignItems="center" justifyContent="center">
         <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-        <Paragraph></Paragraph>
+        <Paragraph>This is a modal...</Paragraph>
         <Separator />
         <EditScreenInfo path="app/modal.tsx" />
       </YStack>

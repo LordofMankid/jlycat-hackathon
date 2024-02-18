@@ -1,12 +1,14 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialUI from '@expo/vector-icons/MaterialIcons';
+
+import { colorTokens } from '@tamagui/themes';
 import { Tabs } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof MaterialUI>['name'];
   color: string;
 }) {
-  return <FontAwesome size={28} style={styles.tabBarIcon} {...props} />;
+  return <MaterialUI size={28} style={styles.tabBarIcon} {...props} />;
 }
 
 export default function TabLayout() {
@@ -14,27 +16,30 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: 'black',
+        tabBarActiveTintColor: colorTokens.dark.blue.blue10,
+        tabBarStyle: {
+          backgroundColor: colorTokens.dark.blue.blue3,
+        },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Registration',
+          tabBarIcon: ({ color }) => <TabBarIcon name="library-books" color={color} />,
         }}
       />
       <Tabs.Screen
         name="two"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Ballot Boxes',
+          tabBarIcon: ({ color }) => <TabBarIcon name="location-on" color={color} />,
         }}
       />
       <Tabs.Screen
         name="three"
         options={{
-          title: 'Tab Three',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Resources',
+          tabBarIcon: ({ color }) => <TabBarIcon name="info" color={color} />,
         }}
       />
     </Tabs>
