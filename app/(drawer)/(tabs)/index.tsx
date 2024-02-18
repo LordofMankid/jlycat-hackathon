@@ -1,4 +1,4 @@
-import { YStack, SizableText, Theme, ScrollView, Text, XStack, Button, Square, H2 } from 'tamagui';
+import { View, YStack, SizableText, Theme, ScrollView, Text, XStack, Button, Square, H2, Circle } from 'tamagui';
 import MaterialUI from '@expo/vector-icons/MaterialIcons';
 import { useAuth } from '~/context/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -6,6 +6,7 @@ import { db } from '~/backend/firebase';
 import checkRegistration from '~/api/checkRegistration';
 import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import { LinearGradient } from '@tamagui/linear-gradient'
 
 function Icon(props: { name: React.ComponentProps<typeof MaterialUI>['name']; color: string }) {
   return <MaterialUI size={28} {...props} />;
@@ -59,11 +60,46 @@ export default function TabOneScreen() {
 
   return (
     <Theme name="dark">
-      <YStack backgroundColor={'$blue1'} flex={1} alignItems="center" justifyContent="center">
+      <YStack paddingTop="$12" backgroundColor={'$blue1'} flex={1} alignItems="center" justifyContent="center">
         {loading ? (
           <H2>Loading...</H2>
         ) : (
           <ScrollView space="$space.3">
+            <SizableText size="$10" fontSize={25} paddingTop={20}>
+              Welcome, {name}
+            </SizableText>
+
+            <Square
+              flex={1}
+              alignItems="center"
+              justifyContent="center"
+              height={136}
+              width={353}
+              backgroundColor={"$blue4"}
+              borderRadius={10}
+            >
+              <XStack>
+                <Circle borderWidth={1} borderColor={"$green9"} width={100} height={100}>
+                  <YStack>
+                    <Text color={"$green9"} fontWeight={800} textAlign='center'>Active</Text>
+                    <Text color="white">Registered</Text>
+                  </YStack>
+                </Circle>
+                <Square
+                  width="$10"
+                  height={3}
+                  width={50}
+                  marginTop={50}
+                  backgroundColor={"$green9"}
+                ></Square>
+                <Circle borderWidth={1} borderColor={"$green9"} width={100} height={100}>
+                  <YStack>
+                    <Text color={"$green9"}>Voted</Text>
+                  </YStack>
+                </Circle>
+              </XStack>
+            </Square>
+
             <SizableText size="$6" fontSize={23} paddingTop={20}>
               Voter Registration Details
             </SizableText>
@@ -490,6 +526,6 @@ export default function TabOneScreen() {
           </ScrollView>
         )}
       </YStack>
-    </Theme>
+    </Theme >
   );
 }
